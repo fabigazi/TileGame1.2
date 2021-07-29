@@ -61,14 +61,15 @@ public class Game implements Runnable{
 	//the run method that completes runnable
 	public void run() {
 		init();
-		
-		 int fps = 60; //1900 with no animation 1500 seems to be limit with minimalanimation
-		 double timePerTick = 1000000000 / fps; //1 x 10^9 nano sec in one sec
-		 double delta = 0;
-		 long now;
-		 long lastTime = System.nanoTime();
-		 long timer = 0;
-		 int ticks = 0;
+		//the video #10
+		//https://www.youtube.com/watch?v=w1aB5gc38C8&list=PLah6faXAgguMnTBs3JnEJY0shAc18XYQZ&index=10
+		int fps = 60; //1900 with no animation 1500 seems to be limit with minimal animation
+		double timePerTick = 1000000000 / fps; //1 x 10^9 nano sec in one sec
+		double delta = 0;
+		long now;
+		long lastTime = System.nanoTime();
+		long timer = 0;
+		int ticks = 0;
 		
 		while(running) {
 			now = System.nanoTime();
