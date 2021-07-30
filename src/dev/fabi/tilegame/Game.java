@@ -4,12 +4,11 @@ package dev.fabi.tilegame;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 
 import dev.fabi.tilegame.display.Display;
 import dev.fabi.tilegame.gfx.Assets;
-import dev.fabi.tilegame.gfx.ImageLoader;
-import dev.fabi.tilegame.gfx.SpriteSheet;
+import dev.fabi.tilegame.states.GameState;
+import dev.fabi.tilegame.states.State;
 
 public class Game implements Runnable{
 	
@@ -23,6 +22,9 @@ public class Game implements Runnable{
 	private BufferStrategy bs;
 	private Graphics g;
 	
+	//States
+	private State gameState;
+	
 	
 	public Game(String title, int width, int height) {
 		this.width = width;
@@ -33,12 +35,16 @@ public class Game implements Runnable{
 	private void init() {
 		display = new Display(title, width, height);
 		Assets.init();
+		
+		gameState = new GameState();
+		State.setState(gameState);
 	}
-	int x = 0;
+	
 	
 	//the unit of time that passes
 	private void tick() {
-		x +=1;
+		if(State.getState() != null)
+			State.getState().tick();
 	}
 	//Drawing the image on the window
 	private void render() {
@@ -52,7 +58,9 @@ public class Game implements Runnable{
 		g.clearRect(0, 0, width, height);
 		//Draw Here!
 
-		g.drawImage(Assets.tree,x,10,null);
+
+		if(State.getState() != null)
+			State.getState().render(g);
 		
 		//End Drawing!
 		bs.show();
