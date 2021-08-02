@@ -8,6 +8,7 @@ import java.awt.image.BufferStrategy;
 import dev.fabi.tilegame.display.Display;
 import dev.fabi.tilegame.gfx.Assets;
 import dev.fabi.tilegame.states.GameState;
+import dev.fabi.tilegame.states.MenuState;
 import dev.fabi.tilegame.states.State;
 
 public class Game implements Runnable{
@@ -24,6 +25,7 @@ public class Game implements Runnable{
 	
 	//States
 	private State gameState;
+	private State menuState;
 	
 	
 	public Game(String title, int width, int height) {
@@ -36,7 +38,9 @@ public class Game implements Runnable{
 		display = new Display(title, width, height);
 		Assets.init();
 		
+		//declare all states here
 		gameState = new GameState();
+		menuState = new MenuState();
 		State.setState(gameState);
 	}
 	
