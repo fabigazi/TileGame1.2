@@ -8,6 +8,7 @@ import java.awt.image.BufferStrategy;
 import dev.fabi.tilegame.display.Display;
 import dev.fabi.tilegame.gfx.Assets;
 import dev.fabi.tilegame.input.KeyManager;
+import dev.fabi.tilegame.input.MouseManager;
 import dev.fabi.tilegame.states.GameState;
 import dev.fabi.tilegame.states.MenuState;
 import dev.fabi.tilegame.states.State;
@@ -25,11 +26,12 @@ public class Game implements Runnable{
 	private Graphics g;
 	
 	//States
-	private State gameState;
-	private State menuState;
+	public State gameState;
+	public State menuState;
 	
 	//Input
 	private KeyManager keyManager;
+	private MouseManager mouseManager;
 	
 	
 	public Game(String title, int width, int height) {
@@ -37,17 +39,22 @@ public class Game implements Runnable{
 		this.height = height;
 		this.title = title;	
 		keyManager = new KeyManager();
+		mouseManager = new MouseManager();
 	}
 	//Initializes the Display
 	private void init() {
 		display = new Display(title, width, height);
 		display.getFrame().addKeyListener(keyManager);
+		display.getFrame().addMouseListener(mouseManager);
+		display.getFrame().addMouseMotionListener(mouseManager);
+		display.getCanvas().addMouseListener(mouseManager);
+		display.getCanvas().addMouseMotionListener(mouseManager);
 		Assets.init();
 		
 		//declare all states here
 		gameState = new GameState(this);
 		menuState = new MenuState(this);
-		State.setState(gameState);
+		State.setState(menuState);
 	}
 	
 	
@@ -113,6 +120,9 @@ public class Game implements Runnable{
 	}
 	public KeyManager getKeyManager() {
 		return keyManager;
+	}
+	public MouseManager getMouseManager() {
+		return mouseManager;
 	}
 	//Initializes running and the threads
 	public synchronized void start() {
