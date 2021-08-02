@@ -2,10 +2,12 @@ package dev.fabi.tilegame.states;
 
 import java.awt.Graphics;
 
+import dev.fabi.tilegame.Game;
+
 public class MenuState extends State{
 
-	public MenuState() {
-		
+	public MenuState(Game game) {
+		super(game);
 	}
 	
 	@Override

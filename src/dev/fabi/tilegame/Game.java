@@ -7,6 +7,7 @@ import java.awt.image.BufferStrategy;
 
 import dev.fabi.tilegame.display.Display;
 import dev.fabi.tilegame.gfx.Assets;
+import dev.fabi.tilegame.input.KeyManager;
 import dev.fabi.tilegame.states.GameState;
 import dev.fabi.tilegame.states.MenuState;
 import dev.fabi.tilegame.states.State;
@@ -27,26 +28,33 @@ public class Game implements Runnable{
 	private State gameState;
 	private State menuState;
 	
+	//Input
+	private KeyManager keyManager;
+	
 	
 	public Game(String title, int width, int height) {
 		this.width = width;
 		this.height = height;
-		this.title = title;		
+		this.title = title;	
+		keyManager = new KeyManager();
 	}
 	//Initializes the Display
 	private void init() {
 		display = new Display(title, width, height);
+		display.getFrame().addKeyListener(keyManager);
 		Assets.init();
 		
 		//declare all states here
-		gameState = new GameState();
-		menuState = new MenuState();
+		gameState = new GameState(this);
+		menuState = new MenuState(this);
 		State.setState(gameState);
 	}
 	
 	
 	//the unit of time that passes
 	private void tick() {
+		keyManager.tick();
+		
 		if(State.getState() != null)
 			State.getState().tick();
 	}
@@ -102,6 +110,9 @@ public class Game implements Runnable{
 			}
 		}
 		stop();
+	}
+	public KeyManager getKeyManager() {
+		return keyManager;
 	}
 	//Initializes running and the threads
 	public synchronized void start() {
